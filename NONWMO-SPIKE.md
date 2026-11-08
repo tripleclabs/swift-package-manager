@@ -55,3 +55,18 @@ no `DEBUG`, and no `-enable-testing`. Probe timings are not application benchmar
 Full PulseServer validation is recorded separately in the platform branch's
 `docs/reviews/shared-rust-remaining/podman-review/` directory. This spike does not
 establish production suitability, performance equivalence, or binary-size savings.
+
+## Full application result
+
+PulseServer's Linux ARM64 release build and link passed with this executable,
+using the existing native archive and dependency/build cache. The build system
+reported 957.70 seconds; total shell time was 977 seconds. Container-accounted
+peak memory was 10,172,563,456 bytes (9.47 GiB) under the 20 GiB cap. The executable
+was 885,079,016 bytes including debug information. These are cached-build
+measurements, not speed or size improvements against a matched baseline.
+
+A separate network-isolated container successfully ran `PulseServer schema
+export`, producing a nonempty 2,176,984-byte GraphQL schema. Dynamic linkage had
+no missing libraries or separate Rust capability libraries. The standard
+production image and toolchain configuration remain unchanged and unqualified
+by this experiment; no database-backed server acceptance is claimed.
